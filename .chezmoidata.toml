@@ -1,0 +1,8 @@
+# Valores públicos, iguais em qualquer máquina. O que varia por máquina
+# (perfil, git, display, GPU híbrida, paths de SDK) vive em
+# ~/.config/chezmoi/chezmoi.toml, gerado a partir de .chezmoi.toml.tmpl.
+
+desktop = "niri"
+terminal = "kitty"
+launcher = "fuzzel"
+wallpaper = "wallhaven-zpx8vj.png"

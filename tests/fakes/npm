@@ -1,0 +1,6 @@
+#!/bin/sh
+printf '%s %s\n' "${0##*/}" "$*" >> "$CALLS"
+case "$1" in
+  ls) printf '{"dependencies":{}}\n' ;;
+esac
+exit 0

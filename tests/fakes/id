@@ -1,0 +1,7 @@
+#!/bin/sh
+printf '%s %s\n' "${0##*/}" "$*" >> "$CALLS"
+case "$1" in
+  -u) echo 1000 ;;
+  *) exec /usr/bin/id "$@" ;;
+esac
+exit 0

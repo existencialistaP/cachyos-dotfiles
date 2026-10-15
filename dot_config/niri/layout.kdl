@@ -1,0 +1,42 @@
+layout {
+  gaps 20
+
+
+  background-color "transparent"
+  default-column-display "normal"
+  // center-focused-column "on-overflow"
+  //
+
+
+  struts {
+      left 25
+      right 25
+       
+       bottom -10
+       top -10
+    }
+  shadow {
+    softness 0
+    spread 0
+    offset x=10 y=10
+    draw-behind-window true
+    color "#000"
+    }
+  focus-ring {
+    off
+    }
+  // Borda: SEM EFEITO (verificado na tela em 2026-10-13).
+  // O include do pywal (colors-niri.kdl, incluido depois deste arquivo)
+  // reescreve o no `border`, entao o `width` daqui nunca se aplica e a largura
+  // efetiva cai no default do niri (0 = sem borda). Teste: com width 20 aqui,
+  // nenhuma borda foi desenhada e o validate passou.
+  // Ou seja: sem borda nenhuma, como voce queria. Se um dia quiser borda, a
+  // largura precisa vir de um arquivo incluido DEPOIS do pywal.
+  // border {
+  //     width 2
+  //     active-color "#c7c3c7"
+  //     inactive-color "#c7c3c7"
+  //     urgent-color "#c7c3c7"
+  //   }
+}
+

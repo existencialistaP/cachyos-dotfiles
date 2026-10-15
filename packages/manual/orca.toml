@@ -1,0 +1,8 @@
+# Orca Agent (AppImage). Nao existe URL publica estavel conhecida: o bootstrap
+# exige `--artifact orca=/caminho/orca.AppImage` e recusa SHA-256 diferente.
+# Nao confundir com o pacote `orca` do pacman, que e outro aplicativo.
+name = "orca"
+source = "manual"
+version = "1.4.224"
+sha256 = "b1fe9102d987d35d97eb6d9c274a93d9e951aadbe864fc2251a315023f60c746"
+dest = "~/.local/bin/orca.AppImage"

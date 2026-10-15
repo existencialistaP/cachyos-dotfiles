@@ -1,0 +1,11 @@
+
+output "{{ .display.output }}" {
+    // mode "1920x1080@60.020"
+    scale {{ .display.scale }}
+    position x=0 y=0
+    variable-refresh-rate on-demand=true
+    layout {
+        always-center-single-column
+    }
+}
+

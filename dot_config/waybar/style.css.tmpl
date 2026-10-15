@@ -1,0 +1,183 @@
+@import "{{ .chezmoi.homeDir }}/.cache/wal/colors-waybar.css";
+
+/* Estética: quadrado, sem borda, sem gradiente. O que muda de módulo pra módulo
+   é só cor e um fundo sutil no hover, pra dar feedback sem poluir. */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Lilex";
+    font-size: 12px;
+    min-height: 0;
+}
+
+window#waybar {
+    border-radius: 0px;
+    background: alpha(@background, 1);
+    color: @foreground;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+.module,
+#cpu, #memory, #temperature, #network, #bluetooth, #wireplumber, #backlight,
+#battery, #tray, #mpris, #custom-notification, #privacy,
+#language, #window, #clock, #systemd-failed-units {
+    margin: 0 5px;
+    padding: 0 2px;
+}
+
+.modules-left, .modules-right {
+    padding: 0 20px;
+}
+
+label#window {
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 1);
+}
+
+/* --- grupos com drawer ---------------------------------------------------- */
+/* O drawer é o mecanismo que permite "mais informação" sem ocupar espaço fixo.
+   Sem estilo ele abria colado e sem separação do resto da barra.
+   group/title  -> título inteiro da janela no hover (filho mostra só o resto)
+   group/media  -> controles ⏮ ⏯ ⏭ no hover
+   group/tray   -> bandeja escondida atrás da setinha, abre no clique */
+#group-resources,
+#group-clock,
+#group-title,
+#group-media,
+#group-tray {
+    padding: 0 4px;
+}
+
+#group-resources drawer,
+#group-clock drawer,
+#group-title drawer,
+#group-media drawer,
+#group-tray drawer {
+    background: alpha(@background, 0.96);
+    padding: 0 8px;
+}
+
+#group-resources:hover,
+#group-clock:hover,
+#group-title:hover,
+#group-media:hover,
+#group-tray:hover {
+    background: alpha(@foreground, 0.08);
+}
+
+/* --- controles do player (visíveis só quando o group/media abre) ---------- */
+#custom-prev,
+#custom-playpause,
+#custom-next {
+    color: alpha(@foreground, 0.8);
+    padding: 0 7px;
+}
+
+#custom-prev:hover,
+#custom-playpause:hover,
+#custom-next:hover {
+    color: @foreground;
+    background: alpha(@foreground, 0.15);
+}
+
+/* --- setinha da bandeja (líder do group/tray) ----------------------------- */
+#custom-tray-arrow {
+    color: alpha(@foreground, 0.7);
+    padding: 0 6px;
+}
+
+#custom-tray-arrow:hover {
+    color: @foreground;
+}
+
+/* --- língua ativa (BR/US, alternada pelo Caps Lock) ----------------------- */
+#language {
+    color: alpha(@foreground, 0.75);
+    font-weight: bold;
+}
+
+/* --- notificações --------------------------------------------------------- */
+#custom-notification {
+    color: alpha(@foreground, 0.75);
+}
+
+#custom-notification.dnd {
+    color: @color1;
+}
+
+#custom-notification:hover {
+    background: alpha(@foreground, 0.08);
+}
+
+/* --- só aparece quando tem unidade falhando ------------------------------- */
+#systemd-failed-units {
+    color: @color1;
+    font-weight: bold;
+}
+
+/* --- mídia e estado dos módulos interativos ------------------------------- */
+#mpris.playing {
+    color: @foreground;
+}
+
+#mpris.paused,
+#mpris.stopped {
+    color: alpha(@foreground, 0.5);
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @foreground;
+}
+
+#battery.warning {
+    color: @color3;
+}
+
+#battery.critical {
+    color: @color1;
+}
+
+#network.disconnected {
+    color: @color1;
+}
+
+/* --- bluetooth: a cor (e o peso) carregam o estado ------------------------ */
+#bluetooth.off,
+#bluetooth.disabled,
+#bluetooth.no-controller {
+    color: alpha(@foreground, 0.4);
+}
+
+#bluetooth.on {
+    color: alpha(@foreground, 0.6);
+}
+
+#bluetooth.connected {
+    color: @foreground;
+    font-weight: bold;
+}
+
+#temperature.critical {
+    color: @color1;
+}
+
+tooltip {
+    background: @background;
+    border-radius: 0px;
+}
+
+tooltip label {
+    color: @foreground;
+}
+
+/* --- hover genérico (feedback sem mudar layout) --------------------------- */
+#cpu:hover, #memory:hover, #temperature:hover, #network:hover,
+#bluetooth:hover,
+#wireplumber:hover, #backlight:hover, #battery:hover, #mpris:hover,
+#language:hover, #clock:hover, #window:hover {
+    background: alpha(@foreground, 0.08);
+}

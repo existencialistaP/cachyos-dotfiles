@@ -1,0 +1,13 @@
+fish
+neovim
+zoxide
+eza
+bat
+fzf
+ripgrep
+fd
+btop
+lazygit
+tmux
+github-cli
+tree-sitter-cli

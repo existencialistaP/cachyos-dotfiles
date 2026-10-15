@@ -1,0 +1,5 @@
+android-tools
+scrcpy
+jdk17-openjdk
+dart
+flatpak

@@ -1,0 +1,14 @@
+#!/bin/sh
+# Wrapper do pywal16 (pipx). O pipx nao cria ~/.local/bin/wal porque este
+# arquivo ja existe aqui, entao o wrapper chama o binario do venv direto.
+# Fixa o backend e a saturacao usados pelo tema (os mesmos valores estao em
+# ~/.config/wal/config).
+WAL="${HOME}/.local/share/pipx/venvs/pywal16/bin/wal"
+if [ ! -x "$WAL" ]; then
+    echo "wal: pywal16 nao encontrado em $WAL (rode o bootstrap: pipx install pywal16)." >&2
+    exit 127
+fi
+exec "$WAL" \
+    --backend haishoku \
+    --saturate 0.10 \
+    "$@"

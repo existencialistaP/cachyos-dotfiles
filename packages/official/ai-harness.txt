@@ -1,0 +1,4 @@
+opencode
+bun
+npm
+uv

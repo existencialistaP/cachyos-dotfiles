@@ -1,0 +1,58 @@
+
+input {
+    warp-mouse-to-focus mode="center-xy-always"
+    focus-follows-mouse max-scroll-amount="100%"
+    // disable-power-key-handling
+    workspace-auto-back-and-forth
+    mod-key "Super"
+
+    touchpad {
+        tap
+        // dwt
+        dwtp
+        natural-scroll
+        drag false
+        // drag-lock
+        // disabled-on-external-mouse
+        // left-handed
+        click-method "button-areas"
+        scroll-method "two-finger"
+        accel-speed 0.2
+        accel-profile "flat"
+        tap-button-map "left-right-middle"
+        scroll-factor 1.0
+    }
+    mouse {
+        // natural-scroll
+        // left-handed
+        // middle-emulation
+        accel-speed -0.1
+        accel-profile "flat"
+        scroll-factor 1.0
+    }
+    
+    keyboard {
+        track-layout "global"
+        numlock
+        xkb {
+            layout "br,us"
+            options "grp:caps_toggle"
+        }
+        repeat-delay 300
+        repeat-rate 40
+    }
+    trackpoint {
+     // off
+        // natural-scroll
+        accel-speed -0.1
+        accel-profile "flat"
+ 
+        scroll-method "on-button-down"
+        scroll-button 273
+        // scroll-button-lock
+        // left-handed
+        // middle-emulation
+    }
+}
+
+

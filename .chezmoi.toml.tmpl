@@ -1,0 +1,26 @@
+{{- $name := promptStringOnce . "profile.name" "Nome do perfil desta maquina" "cachyos-niri" -}}
+{{- $gitName := promptStringOnce . "git.name" "Nome para os commits do git (vazio = sem default publico)" "" -}}
+{{- $gitEmail := promptStringOnce . "git.email" "E-mail para os commits do git" "" -}}
+{{- $output := promptStringOnce . "display.output" "Saida principal do niri (ex.: eDP-1, DP-1)" "eDP-1" -}}
+{{- $scale := promptStringOnce . "display.scale" "Escala da saida principal" "1.3" -}}
+{{- $hybrid := promptBoolOnce . "hardware.hybridNvidia" "GPU hibrida NVIDIA (prime render offload)" true -}}
+{{- $androidSdk := promptStringOnce . "paths.androidSdk" "Caminho do Android SDK" (printf "%s/Android/Sdk" .chezmoi.homeDir) -}}
+{{- $flutter := promptStringOnce . "paths.flutter" "Caminho do Flutter" (printf "%s/.local/opt/flutter" .chezmoi.homeDir) -}}
+{{- $music := promptStringOnce . "paths.music" "Pasta de musicas locais" (printf "%s/Músicas" .chezmoi.homeDir) -}}
+{{- $wallpapers := promptStringOnce . "paths.wallpapers" "Pasta de wallpapers" (printf "%s/wallpapers/wallpapers" .chezmoi.homeDir) -}}
+[data]
+    [data.profile]
+        name = {{ $name | quote }}
+    [data.git]
+        name = {{ $gitName | quote }}
+        email = {{ $gitEmail | quote }}
+    [data.display]
+        output = {{ $output | quote }}
+        scale = {{ $scale | quote }}
+    [data.hardware]
+        hybridNvidia = {{ $hybrid | toJson }}
+    [data.paths]
+        androidSdk = {{ $androidSdk | quote }}
+        flutter = {{ $flutter | quote }}
+        music = {{ $music | quote }}
+        wallpapers = {{ $wallpapers | quote }}

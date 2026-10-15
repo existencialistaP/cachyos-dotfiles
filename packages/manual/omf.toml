@@ -1,0 +1,6 @@
+# Oh My Fish via git. O tema `pie` (usado pelo fish_prompt) vem junto.
+name = "omf"
+source = "git"
+repository = "https://github.com/oh-my-fish/oh-my-fish.git"
+revision = "53b5a1bf8526007824964d610211259bf2ad92dd"
+dest = "~/.local/share/omf"

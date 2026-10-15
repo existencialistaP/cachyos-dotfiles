@@ -1,0 +1,96 @@
+
+// Layout de teclas
+//   foco          Super+H/J/K/L        (ou setas)
+//   redimensionar Super+Ctrl+setas
+//   mover coluna  Super+Shift+H/L      (reordenar coluna)
+//   expelir       Super+Ctrl+H/L       (consume-or-expel)
+//
+// Atenção: "MOD" e "Super" são o MESMO modificador. Não use os dois para o mesmo
+// atalho, o segundo declarado ganha e o primeiro morre em silêncio (o próprio
+// niri validate não avisa).
+
+binds {
+    Super+A hotkey-overlay-title="Command Center" { spawn-sh "~/.config/niri/scripts/launcher.sh"; }
+
+    Super+N hotkey-overlay-title="Notifications: Dismiss All" { spawn-sh "makoctl dismiss -a"; }
+    Super+Shift+N hotkey-overlay-title="Notifications: Não Perturbe" { spawn-sh "makoctl mode -t do-not-disturb"; }
+    XF86AudioRaiseVolume allow-when-locked=true {
+       spawn-sh "swayosd-client --output-volume raise" ;
+    }
+    XF86AudioLowerVolume allow-when-locked=true {
+       spawn-sh "swayosd-client --output-volume lower" ;
+    }
+    XF86AudioMute allow-when-locked=true {
+       spawn-sh "swayosd-client --output-volume mute-toggle" ;
+    }
+
+    // Brightness Controls
+    XF86MonBrightnessUp allow-when-locked=true {
+       spawn-sh "swayosd-client --brightness raise" ;
+    }
+
+    XF86MonBrightnessDown allow-when-locked=true {
+       spawn-sh "swayosd-client --brightness lower" ;
+    }
+
+    Super+0 { focus-workspace 10; }
+    Super+1 { focus-workspace 1; }
+    Super+2 { focus-workspace 2; }
+    Super+3 { focus-workspace 3; }
+    Super+4 { focus-workspace 4; }
+    Super+5 { focus-workspace 5; }
+    Super+6 { focus-workspace 6; }
+    Super+7 { focus-workspace 7; }
+    Super+8 { focus-workspace 8; }
+    Super+9 { focus-workspace 9; }
+    Super+Shift+0 { move-window-to-workspace 10; }
+    Super+Shift+1 { move-window-to-workspace 1; }
+    Super+Shift+2 { move-window-to-workspace 2; }
+    Super+Shift+3 { move-window-to-workspace 3; }
+    Super+Shift+4 { move-window-to-workspace 4; }
+    Super+Shift+5 { move-window-to-workspace 5; }
+    Super+Shift+6 { move-window-to-workspace 6; }
+    Super+Shift+7 { move-window-to-workspace 7; }
+    Super+Shift+8 { move-window-to-workspace 8; }
+    Super+Shift+9 { move-window-to-workspace 9; }
+    Super+Shift+J hotkey-overlay-title="Move Window to Workspace Down" { move-window-down-or-to-workspace-down; }
+    Super+Shift+K hotkey-overlay-title="Move Window to Workspace Up" { move-window-up-or-to-workspace-up; }
+
+    // Redimensionar (antes era MOD+Left/Right, que morria para Super+Left/Right)
+    Super+Ctrl+Left hotkey-overlay-title="Narrow Column" { set-column-width "-10%"; }
+    Super+Ctrl+Right hotkey-overlay-title="Widen Column" { set-column-width "+10%"; }
+    Super+Ctrl+Up hotkey-overlay-title="Shorter Window" { set-window-height "-10%"; }
+    Super+Ctrl+Down hotkey-overlay-title="Taller Window" { set-window-height "+10%"; }
+
+    Super+C hotkey-overlay-title="Center Column" { center-column; }
+    Super+Down { focus-window-down; }
+    Super+H hotkey-overlay-title="Focus Left" { focus-column-left-or-last; }
+    Super+J hotkey-overlay-title="Focus Down" { focus-window-or-workspace-down; }
+    Super+K hotkey-overlay-title="Focus Up" { focus-window-or-workspace-up; }
+    Super+L hotkey-overlay-title="Focus Right" { focus-column-right-or-first; }
+    Super+Left hotkey-overlay-title="Toggle Tabbed" { toggle-column-tabbed-display; }
+    Super+M hotkey-overlay-title="Maximize Column" { maximize-column; }
+    Super+Q hotkey-overlay-title="Close Window" { close-window; }
+    Super+R hotkey-overlay-title="Fullscreen" { fullscreen-window; }
+    Super+Right hotkey-overlay-title="Cycle Column Width" { switch-preset-column-width; }
+    Super+Shift+H hotkey-overlay-title="Move Column Left" { move-column-left; }
+    Super+Shift+L hotkey-overlay-title="Move Column Right" { move-column-right; }
+    Super+Ctrl+H hotkey-overlay-title="Expel Window Left" { consume-or-expel-window-left; }
+    Super+Ctrl+L hotkey-overlay-title="Expel Window Right" { consume-or-expel-window-right; }
+    Super+Ctrl+J hotkey-overlay-title="Move Column to Workspace Down" { move-column-to-workspace-down; }
+    Super+Ctrl+K hotkey-overlay-title="Move Column to Workspace Up" { move-column-to-workspace-up; }
+    Super+Up { focus-window-up; }
+    Super+W { toggle-window-floating; }
+    Super+P hotkey-overlay-title="Screenshot Screen" { screenshot-screen; }
+    Super+Alt+L hotkey-overlay-title="Lock" { spawn-sh "~/.config/niri/scripts/lock.sh"; }
+    Super+Shift+P hotkey-overlay-title="Screenshot (Interactive)" { screenshot; }
+    Super+Ctrl+P hotkey-overlay-title="Screenshot Window" { screenshot-window; }
+    Super+E hotkey-overlay-title="File Manager" { spawn "nautilus"; }
+    Super+F hotkey-overlay-title="Browser" { spawn "firefox"; }
+    Super+T hotkey-overlay-title="Terminal" { spawn "kitty"; }
+    Super+Tab hotkey-overlay-title="Toggle Overview" { toggle-overview; }
+    Super+O hotkey-overlay-title="Toggle Light/Dark" { spawn-sh "~/.config/niri/scripts/themeSwitch.sh"; }
+    Super+U { spawn "waypaper"; }
+    Super+Shift+V hotkey-overlay-title="Clipboard Manager" { spawn-sh "~/.config/niri/scripts/clipboard.sh"; }
+    Super+X hotkey-overlay-title="Quick Actions" { spawn-sh "~/.config/niri/scripts/actions.sh"; }
+}

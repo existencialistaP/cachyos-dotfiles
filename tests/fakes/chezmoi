@@ -1,0 +1,6 @@
+#!/bin/sh
+printf '%s %s\n' "${0##*/}" "$*" >> "$CALLS"
+case "$1" in
+  execute-template) printf '%s\n' "${2:-}" ;;
+esac
+exit 0

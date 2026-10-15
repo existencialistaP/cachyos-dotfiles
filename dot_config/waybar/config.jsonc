@@ -1,0 +1,340 @@
+// -*- mode: jsonc -*-
+// waybar 0.15 — minimalista por padrão, informação extra atrás de um clique
+// (grupos com drawer). Nada de workspaces numerados, por escolha.
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
+    "reload_style_on_change": true,
+
+    "modules-left": [
+        "group/resources",
+        "custom/language",
+        "privacy"
+    ],
+    "modules-center": [
+        "group/title",
+        "group/clock"
+    ],
+    "modules-right": [
+        "group/media",
+        "custom/notification",
+        "network",
+        "bluetooth",
+        "wireplumber",
+        "backlight",
+        "battery",
+        "systemd-failed-units",
+        "group/tray"
+    ],
+
+    // --- língua ativa (Caps Lock alterna br/us) -----------------------------
+    // custom, e não niri/language: no waybar 0.15.0 o niri/language ignora
+    // "format-<lang>" e os placeholders, e imprime o nome longo inteiro
+    // ("Portuguese (Brazil)"). O script devolve US/BR.
+    "custom/language": {
+        "exec": "~/.config/niri/scripts/language.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    // --- janela ativa: curta em repouso, inteira no hover -------------------
+    // Drawer nativo do waybar 0.15 (waybar(5), secao "Group Drawers": "a group
+    // may hide all but one element, showing them only on mouse hover").
+    // O lider mostra 12 chars; o filho (custom/window-rest) mostra o RESTANTE do
+    // titulo, entao o hover continua a frase em vez de repetir o comeco.
+    // IMPORTANTE: nao use duas instancias de niri/window aqui. Testado em
+    // 2026-10-13: com duas (niri/window#short + #rest) as duas ficam VAZIAS e o
+    // titulo some da barra; com uma so funciona. Por isso o resto do titulo vem
+    // de um script, e nao de um segundo niri/window.
+    "group/title": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 150
+        },
+        "modules": ["niri/window", "custom/window-rest"]
+    },
+    "niri/window": {
+        "format": "{title}",
+        "icon": true,
+        "icon-size": 14,
+        "max-length": 12,
+        "all-outputs": false,
+        "tooltip": false
+    },
+    // o pedaço que o max-length 12 corta; casa com o cut -c12- do script
+    "custom/window-rest": {
+        "exec": "~/.config/niri/scripts/window-title-rest.sh",
+        "interval": 2,
+        // teto de segurança: sem isto um título gigante (aba de navegador, por
+        // exemplo) esticaria a barra inteira no hover
+        "max-length": 50,
+        "tooltip": false
+    },
+
+    // --- bandeja: retraida atras de uma setinha, tipo a caixinha do Windows --
+    // "click-to-reveal": true abre o drawer no CLIQUE (se ficasse false, seria
+    // no hover). Os icones continuam clicaveis normalmente quando aparecem.
+    "group/tray": {
+        "orientation": "horizontal",
+        "drawer": {
+            "click-to-reveal": true,
+            "transition-duration": 150,
+            "transition-left-to-right": false
+        },
+        "modules": ["custom/tray-arrow", "tray"]
+    },
+    "custom/tray-arrow": {
+        "exec": "printf '\uf054'",
+        "tooltip": false
+    },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 5,
+        // seus itens registrados são passivos (blueman + um app genérico) e a
+        // waybar por padrão os ignora: sem isto a setinha abriria um vazio.
+        // Com true eles aparecem só quando o drawer abre.
+        "show-passive-items": true
+    },
+
+    // --- 1 slot, 3 infos: clique abre cpu / memória / temperatura ------------
+    // (antes cpu+temperature ficavam num grupo cujo drawer só existia no papel,
+    //  e memory/disk estavam em group/resources comentado fora da barra)
+    "group/resources": {
+        "orientation": "horizontal",
+        "modules": ["cpu", "memory", "temperature"],
+        "drawer": {
+            "transition-duration": 150
+        }
+    },
+    "cpu": {
+        "interval": 30,
+        "format": " {usage}"
+    },
+    "memory": {
+        "interval": 45,
+        "format": " {used:0.1f}G"
+    },
+    "temperature": {
+        "interval": 30,
+        "format": " {temperatureC}°C"
+    },
+
+    // --- hora sempre visível, clique abre data + calendário -----------------
+    // (esse grupo já existia na config mas nunca foi usado em modules-*)
+    "group/clock": {
+        "orientation": "horizontal",
+        "modules": ["clock#time", "clock#date"],
+        "drawer": {
+            "transition-left-to-right": false
+        }
+    },
+    "clock#time": {
+        "interval": 60,
+        "format": "{:%H:%M}",
+        "tooltip-format": "{tz_list}",
+        "timezone-tooltip-format": "{:%H:%M %Z}",
+        "timezones": [
+            "",
+            "UTC",
+            "Asia/Tokyo",
+            "Asia/Singapore",
+            "Asia/Bangkok",
+            "Asia/Shanghai",
+            "America/New_York",
+            "America/Los_Angeles"
+        ]
+    },
+    "clock#date": {
+        "format": "{:%a %d %b}",
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "year",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#633aff'><b>{}</b></span>",
+                "weeks": "<span color='#61E2FF'><b>{}</b></span>",
+                "today": "<span color='#f53fa1'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}",
+        "format-icons": [""],
+        "tooltip-format": "Brilho: {percent}%"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}",
+        "format-charging": " {capacity}",
+        "format-plugged": " {capacity}",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "Battery: {capacity}%\n{power}W\n{timeTo}\nHealth: {health}%",
+        "interval": 60
+    },
+
+    "wireplumber": {
+        "format": "{icon} {volume}",
+        "format-muted": "  ",
+        "format-source": " {volume}",
+        "format-source-muted": "  ",
+        "format-icons": ["", "", ""],
+        "tooltip": true,
+        "tooltip-format": "Volume: {volume}%\n{node_name}",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "pavucontrol"
+    },
+
+    // --- player: titulo em repouso, controles no hover -----------------------
+    // A "caixa que abre embaixo" no hover e o tooltip do GTK, e tooltip NAO
+    // aceita botao (limitacao do GTK, nao da config). Entao os controles viram
+    // modulos de verdade, clicaveis, dentro do drawer do grupo: aparecem no
+    // hover e funcionam. Hover do grupo e o mecanismo nativo (waybar(5)).
+    // O lider e o modulo mpris NATIVO: clique esquerdo toca/pausa, direito e do
+    // meio trocam de faixa, e ele segue o player ativo (ver bloco "mpris").
+    "group/media": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 150,
+            "transition-left-to-right": false
+        },
+        "modules": ["mpris", "custom/prev", "custom/playpause", "custom/next"]
+    },
+
+    // --- player: modulo MPRIS NATIVO, sempre no player que esta tocando ------
+    // Aqui tinha um custom/media com playerctl. O bug relatado (Spotify mudo,
+    // YouTube funcionando) era isto: com Spotify e Firefox abertos, `playerctl`
+    // SEM -p escolhe o PRIMEIRO player da lista, que e o firefox. Entao todo
+    // clique (nome, prev, play, next) ia para o Firefox, e o Spotify parecia
+    // morto. Confirmado: `playerctl metadata` respondia "firefox | Paused".
+    //
+    // O modulo nativo resolve na raiz: "player" default e "playerctld", o daemon
+    // que aponta para o player ativo, e os cliques dele sao ACOES INTERNAS
+    // (play-pause / next track), nao shell. Bonus: nada de um processo por
+    // atualizacao, os dados vem por DBus via libplayerctl.
+    "mpris": {
+        "format": "{player_icon} {title}",
+        "max-length": 36,
+        // o icone mostra QUAL player esta tocando
+        "player-icons": {
+            "default": "\uf001",
+            "spotify": "\uf1bc",
+            "firefox": "\uf269"
+        },
+        // clique esquerdo = toca/pausa, direito = proxima, meio = anterior
+        // (defaults do modulo, sempre aplicados no player ativo)
+        "tooltip-format": "{player} · {artist} · {title}"
+    },
+
+    // os tres controles que aparecem no hover do group/media.
+    // ATENCAO: todos precisam de -p playerctld, senao voltam a mandar comando
+    // para o primeiro player da lista (o firefox) e nao para quem esta tocando.
+    "custom/prev": {
+        "exec": "printf '\uf048'",
+        "on-click": "playerctl -p playerctld previous",
+        "tooltip": false
+    },
+    "custom/playpause": {
+        "exec": "playerctl -p playerctld status 2>/dev/null | grep -q Playing && printf '\uf04c' || printf '\uf04b'",
+        "interval": 2,
+        "on-click": "playerctl -p playerctld play-pause",
+        // o scroll-troca-de-faixa que existia no titulo vive aqui agora, porque
+        // o modulo mpris nativo nao tem on-scroll-*
+        "on-scroll-up": "playerctl -p playerctld previous",
+        "on-scroll-down": "playerctl -p playerctld next",
+        "tooltip": false
+    },
+    "custom/next": {
+        "exec": "printf '\uf051'",
+        "on-click": "playerctl -p playerctld next",
+        "tooltip": false
+    },
+
+    // --- NÃO PERTURBE do mako (11px de largura, mas resolve a falta de DND) --
+    "custom/notification": {
+        "interval": 5,
+        "return-type": "json",
+        "exec": "~/.config/niri/scripts/notification.sh",
+        "tooltip": true,
+        "on-click": "makoctl mode -t do-not-disturb",
+        "on-click-right": "makoctl dismiss -a"
+    },
+
+    // --- aparece só quando algo falha (custo visual zero em dia normal) -----
+    "systemd-failed-units": {
+        "hide-on-ok": true,
+        "format": " {nr_failed} falhou",
+        "format-ok": "",
+        "interval": 30,
+        "on-click": "systemctl --user status"
+    },
+
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": " {essid}",
+        "format-ethernet": " {ipaddr}",
+        "format-disconnected": "DC'D",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "Desconectado",
+        // networkmanager_dmenu não está instalado; este é o menu de rede em fuzzel
+        "on-click": "~/.config/niri/scripts/network.sh"
+    },
+
+    // --- bluetooth: estado no ícone, detalhe no tooltip e no clique ----------
+    // Módulo NATIVO (waybar-bluetooth(5), waybar 0.15): o estado ("off", "on",
+    // "connected", "disabled", "no-controller") vira CLASSE no CSS (confirmado
+    // no src/modules/bluetooth.cpp de 0.15.0) e o tooltip enumera os devices via
+    // {device_enumerate} — nada de processo por intervalo como num custom/. O
+    // clique abre o mesmo tipo de menu fuzzel do network.sh. (O tooltip é Pango
+    // markup: alias de device com "&" ou "<" mangaria o texto.)
+    "bluetooth": {
+        // Todos os estados mostram só o ícone; quem diz o estado é a COR (e o
+        // peso, no conectado) via classes .off/.on/.connected no style.css.
+        // O nome do device conectado vive no tooltip, que não ocupa a barra.
+        "format": "{icon}",
+        "format-icons": {
+            "off": "\uf294",
+            "disabled": "\uf294",
+            "no-controller": "\uf294",
+            "on": "\uf293",
+            "connected": "\uf293"
+        },
+        "tooltip-format-off": "Bluetooth desligado",
+        "tooltip-format-disabled": "Bluetooth bloqueado (rfkill)",
+        "tooltip-format-no-controller": "Sem controlador Bluetooth",
+        "tooltip-format-on": "{controller_alias}: ligado, nenhum device conectado",
+        "tooltip-format-connected": "{controller_alias}\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "on-click": "~/.config/niri/scripts/bluetooth.sh"
+    },
+
+    "privacy": {
+        "icon-spacing": 5,
+        "icon-size": 12,
+        "transition-duration": 0,
+        "modules": [
+            {
+                "type": "screenshare",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            },
+            {
+                "type": "audio-in",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            }
+        ],
+        "ignore-monitor": true
+    }
+}

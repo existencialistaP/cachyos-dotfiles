@@ -1,0 +1,11 @@
+#!/bin/sh
+printf 'pacman %s\n' "$*" >> "$CALLS"
+case "${1:-}" in
+    -Qqen) [ -n "${PACMAN_EXPLICIT:-}" ] && cat "$PACMAN_EXPLICIT"; exit 0 ;;
+    -Qqem) [ -n "${PACMAN_FOREIGN:-}" ] && cat "$PACMAN_FOREIGN"; exit 0 ;;
+    -Q)
+        grep -qxF "${2:-}" "${PACMAN_EXPLICIT:-/dev/null}" 2>/dev/null && { printf '%s 1.0-1\n' "$2"; exit 0; }
+        exit 1
+        ;;
+esac
+exit 0

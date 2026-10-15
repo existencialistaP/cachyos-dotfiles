@@ -1,0 +1,36 @@
+# --- Segredos e estado local: NUNCA versionar -------------------------------
+# Política: nenhum segredo no Git. Se algo sensível aparecer no staging, o
+# commit é bloqueado (ver .githooks/pre-commit e bootstrap.sh) e a credencial
+# exposta deve ser rotacionada antes de publicar.
+.env
+.env.*
+service.json
+auth.json
+account.json
+contexts/
+
+# Bancos de dados e journals/WAL/SHM
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Logs, sessões, caches e backups
+*.log
+logs/
+sessions/
+terminal-sessions/
+cache/
+caches/
+.backup-*/
+.bak-*
+
+# Binários e artefatos gerados (AppImages, zips, node deps)
+*.AppImage
+*.zip
+node_modules/
+vendor/
+
+# Estado local de ferramentas (Serena, Orca, herdr)
+.serena/

@@ -1,0 +1,29 @@
+include=~/.cache/wal/colors-mako
+sort=-time
+layer=overlay
+width=380
+height=130
+anchor=top-right
+text-alignment=left
+
+border-size=0
+border-radius=0
+margin=18,0
+padding=20,20
+max-icon-size=38
+default-timeout=5000
+# ignore-timeout=1 faz TODA notificação ignorar o timeout, então o default-timeout
+# acima nunca se aplica (a notificação fica na tela até você fechar). Se quiser que
+# elas sumam sozinhas em 5s, comente a linha abaixo.
+ignore-timeout=1
+font=Lilex 11
+format=<b>%s</b>\n%b
+
+on-button-left=invoke-default-action
+on-button-right=dismiss
+
+# NÃO PERTURBE (Super+Shift+N, ou o módulo de notificação na waybar).
+# Havia DUAS seções [mode=do-not-disturb] aqui, uma com invisible=1 e outra com
+# invisible=0. Só a última valia, então o modo não escondia nada.
+[mode=do-not-disturb]
+invisible=1

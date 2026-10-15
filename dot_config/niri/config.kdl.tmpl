@@ -1,0 +1,87 @@
+include "keybinds.kdl"
+include "windowsrule.kdl"
+include "animations.kdl"
+include "outputs.kdl"
+include "input.kdl"
+include "layout.kdl"
+// Logo depois do layout.kdl de proposito: em kdl o que vem depois ganha, entao
+// as cores do pywal sobrepoem os `#c7c3c7` hardcoded no border do layout.kdl.
+include "{{ .chezmoi.homeDir }}/.cache/wal/colors-niri.kdl"
+cursor {
+    xcursor-size 20
+    // esconde o cursor enquanto você digita
+    hide-when-typing
+    // e depois de 5s parado (vale a partir do niri 26)
+    hide-after-inactive-ms 5000
+}
+
+// explicito (é o default, mas assim não fica escondido)
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+
+spawn-at-startup "wal -R"
+spawn-at-startup "swayosd-server"
+spawn-at-startup "awww-daemon"
+spawn-at-startup "swayidle"
+spawn-at-startup "mako"
+spawn-at-startup "{{ .chezmoi.homeDir }}/.config/niri/scripts/clipboard-store.sh"
+spawn-at-startup "waybar" 
+spawn-sh-at-startup "gsettings set org.gnome.desktop.wm.preferences button-layout ''"
+prefer-no-csd
+
+include "env.kdl"
+
+
+hotkey-overlay {
+    hide-not-bound
+    skip-at-startup
+}
+
+
+layer-rule {
+    match namespace="^awww-daemon$"
+    match namespace="^desktop$"
+    place-within-backdrop true
+}
+
+
+overview {
+    zoom 0.5
+
+    workspace-shadow {
+        off
+    }
+}
+
+animations {
+    on
+    // off
+    // slowdown 1.5
+}
+
+recent-windows {
+    
+    previews {
+        max-height 240
+        max-scale 0.25
+    }
+
+    highlight {
+        padding 10
+        corner-radius 10
+    }
+}
+
+// (aqui existia um window-rule sem `match` só com background-effect blur false.
+// Sem match ele vale para toda janela e blur-off já é o default, então era no-op
+// e só atrapalhava ler as regras de verdade.)
+
+
+
+
+binds {
+    // >>> jcode launch hotkeys (managed) >>>
+    Super+Semicolon hotkey-overlay-title="jcode: vitrine" { spawn "sh" "-c" "if [ \"$(niri msg -j focused-window 2>/dev/null | jq -r '.app_id // empty' 2>/dev/null)\" = 'jcode-desktop' ]; then exec wtype -M ctrl -M alt -k Return -m alt -m ctrl; fi; if [ -d \"$HOME/vitrine\" ]; then cd \"$HOME/vitrine\"; else cd \"$HOME\"; fi; exec 'kitty' 'jcode' --spawn-hotkey 'cmd+;'"; }
+    Super+Apostrophe hotkey-overlay-title="jcode: home" { spawn "sh" "-c" "if [ \"$(niri msg -j focused-window 2>/dev/null | jq -r '.app_id // empty' 2>/dev/null)\" = 'jcode-desktop' ]; then exec wtype -M ctrl -k t -m ctrl; fi; cd \"$HOME\" || exit 1; exec 'kitty' 'jcode' --spawn-hotkey 'cmd+'\\'''"; }
+    // <<< jcode launch hotkeys (managed) <<<
+}

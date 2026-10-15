@@ -1,0 +1,13 @@
+# Metadados do repositório: ficam no Git, mas não são alvos do `chezmoi apply`.
+# As entradas são relativas ao destino (o home), não ao source do Chezmoi.
+README.md
+bootstrap.sh
+.gitignore
+.githooks
+lib
+packages
+profiles
+tests
+
+# Wallpaper grande que fica fora do Git (204,9 MB). Os outros 45 entram.
+wallpapers/wallpapers/asuka.gif

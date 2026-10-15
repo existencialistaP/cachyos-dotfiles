@@ -1,0 +1,3 @@
+pywal16==3.8.15
+pywalfox==2.9.0
+waypaper==2.8

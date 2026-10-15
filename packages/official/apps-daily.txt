@@ -1,0 +1,5 @@
+librewolf
+spotify-launcher
+nautilus
+papers
+loupe

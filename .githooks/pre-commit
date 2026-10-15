@@ -1,0 +1,67 @@
+#!/bin/sh
+# Portao de segredos do repositorio. Roda no pre-commit (arquivos staged) e
+# pode ser executado na mao para varrer o repositorio inteiro:
+#
+#   .githooks/pre-commit          # staged, se houver; senao a arvore inteira
+#   .githooks/pre-commit --all    # arvore inteira, ignorando o staging
+#
+# Politica: nenhum segredo no Git. Se algo passar, o commit e bloqueado, o
+# arquivo sai do ignore e a credencial exposta deve ser rotacionada antes de
+# publicar.
+
+set -eu
+
+REPO=$(git rev-parse --show-toplevel)
+cd "$REPO"
+
+# 1) Caminhos que nunca devem ser versionados.
+PATH_RE='(^|/)(\.env(\..*)?|service\.json|auth\.json|account\.json|credentials|\.netrc|id_(rsa|dsa|ecdsa|ed25519)|[^/]*\.pem|[^/]*\.key|\.npmrc\.bak|[^/]*\.db|store\.sqlite)$'
+
+# 2) Valores com cara de segredo.
+SECRET_RE='-----BEGIN [A-Z ]*PRIVATE KEY-----'
+SECRET_RE="$SECRET_RE|(OPENAI_API_KEY|OPENAI_COMPAT_API_KEY|JCODE_PROVIDER_SLEEV_PROXY_API_KEY|AWS_SECRET_ACCESS_KEY|ANTHROPIC_API_KEY|MANAGEMENT_TOKEN)[[:space:]]*[:=][[:space:]]*[\"']?[A-Za-z0-9_/+.-]{12,}"
+SECRET_RE="$SECRET_RE|gh[pousr]_[A-Za-z0-9]{20,}"
+SECRET_RE="$SECRET_RE|github_pat_[A-Za-z0-9_]{20,}"
+SECRET_RE="$SECRET_RE|sk-[A-Za-z0-9-]{20,}"
+SECRET_RE="$SECRET_RE|AKIA[0-9A-Z]{16}"
+SECRET_RE="$SECRET_RE|xox[baprs]-[A-Za-z0-9-]{10,}"
+SECRET_RE="$SECRET_RE|AIza[0-9A-Za-z_-]{30,}"
+SECRET_RE="$SECRET_RE|eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"
+SECRET_RE="$SECRET_RE|(password|passwd|secret|token|api_key|apikey|api-key|management_token)[[:space:]]*[:=][[:space:]]*[\"'][^\"']{12,}[\"']"
+
+if [ "${1:-}" = "--all" ] || [ -z "$(git diff --cached --name-only)" ]; then
+    FILES=$(git ls-files --cached --others --exclude-standard)
+    MODE=worktree
+else
+    FILES=$(git diff --cached --name-only --diff-filter=ACMRT)
+    MODE=staged
+fi
+
+[ -n "$FILES" ] || exit 0
+
+status=0
+
+bad_paths=$(printf '%s\n' "$FILES" | grep -E "$PATH_RE" || true)
+if [ -n "$bad_paths" ]; then
+    printf '%s: caminhos proibidos:\n%s\n' "$0" "$bad_paths" >&2
+    status=1
+fi
+
+for f in $FILES; do
+    [ -f "$f" ] || continue
+    # grep -I ignora binarios, evitando ler 200 MB de wallpapers.
+    if [ "$MODE" = "staged" ]; then
+        hits=$(git show ":$f" 2>/dev/null | grep -nEI -e "$SECRET_RE" || true)
+    else
+        hits=$(grep -nEI -e "$SECRET_RE" -- "$f" 2>/dev/null || true)
+    fi
+    if [ -n "$hits" ]; then
+        printf '%s: possivel segredo em %s:\n%s\n' "$0" "$f" "$hits" >&2
+        status=1
+    fi
+done
+
+if [ "$status" -ne 0 ]; then
+    printf '%s: commit bloqueado (nenhum segredo no Git).\n' "$0" >&2
+fi
+exit "$status"

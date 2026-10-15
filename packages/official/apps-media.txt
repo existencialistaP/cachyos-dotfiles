@@ -1,0 +1,6 @@
+gimp
+rnote
+grim
+slurp
+satty
+wf-recorder

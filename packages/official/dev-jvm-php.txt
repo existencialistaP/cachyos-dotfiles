@@ -1,0 +1,4 @@
+jdk17-openjdk
+maven
+php
+composer

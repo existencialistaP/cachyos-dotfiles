@@ -1,0 +1,3 @@
+openwiki@0.5.1
+@fission-ai/openspec@1.14.1
+sleev@1.8.8

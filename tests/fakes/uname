@@ -1,0 +1,4 @@
+#!/bin/sh
+printf '%s %s\n' "${0##*/}" "$*" >> "$CALLS"
+if [ "${1:-}" = "-m" ]; then echo x86_64; fi
+exit 0

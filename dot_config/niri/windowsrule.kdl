@@ -1,0 +1,86 @@
+window-rule {
+    match app-id=r"firefox$" title="^Picture-in-Picture$"
+    open-floating true
+}
+
+
+window-rule {
+    match title=r".*File.*"
+    open-floating true
+    default-column-width { proportion 0.0; }
+    max-width 800
+    max-height 1000
+}
+
+window-rule {
+    match app-id=r"org\.gtk\.FileChooserDialog"
+    open-floating true
+    default-column-width { proportion 0.0; }
+    max-width 800
+    max-height 1000
+}
+
+window-rule {
+    match title=r".*Sign in - Google Accounts — Mozilla Firefox"
+    open-floating true
+}
+
+window-rule {
+    match title=r".*(Dialog|Properties|Preferences|Settings|Rename).*"
+    open-floating true
+}
+
+window-rule {
+    match app-id=r"zenity"
+    open-floating true
+}
+
+window-rule {
+    match app-id=r"org\.kde\.polkit-kde-authentication-agent-1"
+    open-floating true
+}
+
+window-rule {
+    match title=r".*Authentication.*"
+    open-floating true
+}
+
+
+
+window-rule {
+    match app-id="steam" title=r"^notificationtoasts_\d+_desktop$"
+    default-floating-position x=10 y=10 relative-to="bottom-right"
+}
+
+
+window-rule {
+    default-column-width { proportion 0.75; }
+    geometry-corner-radius 0
+    clip-to-geometry true
+  
+}
+
+
+
+window-rule {
+    match app-id="plasmashell"
+    open-floating true
+}
+
+window-rule {
+    match app-id="org.kde.krunner"
+    open-floating true
+}
+
+window-rule {
+    // Atencao: varios `match` numa mesma regra sao OR (docs do niri: "a window
+    // needs to match *any* of the match directives"), nao AND. Nao ha como uma
+    // janela ter os tres titulos, entao na pratica isto e: Plasma OU fuzzel OU
+    // Waypaper abrem flutuando.
+    match title="Plasma"
+    match title="fuzzel"
+    open-floating true
+    match title="Waypaper"
+}
+
+ 

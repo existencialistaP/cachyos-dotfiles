@@ -1,0 +1,8 @@
+layout {
+  border {
+      active-color "{foreground}"
+      inactive-color "{foreground}"
+      urgent-color "{foreground}"
+  }
+
+}

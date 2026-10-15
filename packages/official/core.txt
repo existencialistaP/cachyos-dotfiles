@@ -1,0 +1,14 @@
+base-devel
+git
+chezmoi
+paru
+curl
+wget
+rsync
+jq
+xdg-user-dirs
+flatpak
+python-pipx
+uv
+shellcheck
+bats

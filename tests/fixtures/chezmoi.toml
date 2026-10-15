@@ -1,0 +1,21 @@
+# Fixture de teste: dados publicos de uma maquina ficticia, usados para
+# renderizar o source do Chezmoi sem prompts (nenhum valor real de maquina).
+# Uso:
+#   chezmoi --config tests/fixtures/chezmoi.toml --source "$PWD" \
+#           --destination "$(mktemp -d)/home" apply
+[data]
+    [data.profile]
+        name = "test-machine"
+    [data.git]
+        name = "Test User"
+        email = "test@example.invalid"
+    [data.display]
+        output = "eDP-1"
+        scale = "1.3"
+    [data.hardware]
+        hybridNvidia = true
+    [data.paths]
+        androidSdk = "/home/tester/Android/Sdk"
+        flutter = "/home/tester/.local/opt/flutter"
+        music = "/home/tester/Músicas"
+        wallpapers = "/home/tester/wallpapers/wallpapers"

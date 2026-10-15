@@ -1,0 +1,126 @@
+# Registro unico de perfis do CachyOS. Tanto o bootstrap.sh quanto os testes
+# leem este arquivo; nao existe outro lugar onde perfis sao definidos.
+#
+# Cada perfil lista manifests por gerenciador. Um manifest e um arquivo com um
+# pacote por linha:
+#   official = packages/official/<nome>.txt   (pacman)
+#   aur      = packages/aur/<nome>.txt        (paru)
+#   flatpak  = packages/flatpak/<nome>.txt    (flathub)
+#   user     = packages/<nome>.txt            (pipx, uv, bun, npm globais)
+#   manual   = packages/manual/<nome>.toml    (git/AppImage com receita propria)
+
+# Ordem canonica: define o `--all` e a numeracao do menu.
+order = [
+    "core",
+    "desktop-niri",
+    "shell-editor",
+    "dev-web",
+    "dev-containers-db",
+    "dev-android-flutter",
+    "dev-jvm-php",
+    "dev-native",
+    "apps-daily",
+    "apps-media",
+    "ai-harness",
+]
+
+# Sem flags de perfil, o bootstrap sempre instala estes e oferece o resto.
+default_profiles = ["core", "desktop-niri", "shell-editor"]
+optional_profiles = [
+    "dev-web",
+    "dev-containers-db",
+    "dev-android-flutter",
+    "dev-jvm-php",
+    "dev-native",
+    "apps-daily",
+    "apps-media",
+    "ai-harness",
+]
+
+[profiles.core]
+description = "Base do sistema: repos, chezmoi e ferramentas de build"
+official = ["core"]
+aur = []
+flatpak = []
+user = []
+manual = []
+
+[profiles.desktop-niri]
+description = "Niri + barra + tema (pywal) + portal de tela"
+official = ["desktop-niri"]
+aur = ["desktop-niri"]
+flatpak = []
+user = ["pipx"]
+manual = []
+
+[profiles.shell-editor]
+description = "Fish, Neovim (NvChad) e utilitarios de shell"
+official = ["shell-editor"]
+aur = []
+flatpak = []
+user = []
+manual = ["omf"]
+
+[profiles.dev-web]
+description = "Node/Bun, Python e VS Code"
+official = ["dev-web"]
+aur = []
+flatpak = []
+user = []
+manual = []
+
+[profiles.dev-containers-db]
+description = "Docker e PostgreSQL"
+official = ["dev-containers-db"]
+aur = []
+flatpak = []
+user = []
+manual = []
+
+[profiles.dev-android-flutter]
+description = "Android SDK/Studio e Flutter"
+official = ["dev-android-flutter"]
+aur = []
+flatpak = ["dev-android-flutter"]
+user = []
+manual = ["flutter"]
+
+[profiles.dev-jvm-php]
+description = "JVM e PHP"
+official = ["dev-jvm-php"]
+aur = []
+flatpak = []
+user = []
+manual = []
+
+[profiles.dev-native]
+description = "Toolchain C/C++/Rust"
+official = ["dev-native"]
+aur = []
+flatpak = []
+user = []
+manual = []
+
+[profiles.apps-daily]
+description = "Navegador, musica, arquivos e visualizadores"
+official = ["apps-daily"]
+aur = ["apps-daily"]
+flatpak = []
+user = []
+manual = []
+
+[profiles.apps-media]
+description = "Edicao de imagem, notas e captura de tela"
+official = ["apps-media"]
+aur = []
+flatpak = []
+user = []
+manual = []
+
+[profiles.ai-harness]
+description = "OpenCode, OMP e ferramentas de agente"
+official = ["ai-harness"]
+aur = ["ai-harness"]
+flatpak = []
+user = ["uv-tools", "bun-global", "npm-global"]
+manual = ["orca"]

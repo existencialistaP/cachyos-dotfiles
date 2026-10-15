@@ -1,0 +1,15 @@
+# Idle timeline, GNOME/Windows style: dim first, then lock, then turn the
+# monitors off. Every stage is driven by idleness only and runs regardless of
+# whether the screen is locked, so locking by hand (Super+Alt+L) does not dim
+# anything - the panel only darkens after the idle timeouts below.
+#
+#   60s   dim the panel as a warning        (restored on any activity)
+#   300s  lock the screen with hyprlock
+#   360s  monitors off via DPMS = 5min after dimming
+#         (niri turns them back on on any input)
+#
+# Tune the numbers here; the dim amount lives in idle-brightness.sh.
+timeout 60 '{{ .chezmoi.homeDir }}/.config/niri/scripts/idle-brightness.sh dim' resume '{{ .chezmoi.homeDir }}/.config/niri/scripts/idle-brightness.sh restore'
+timeout 300 '{{ .chezmoi.homeDir }}/.config/niri/scripts/lock.sh'
+timeout 360 '/usr/bin/niri msg action power-off-monitors' resume '/usr/bin/niri msg action power-on-monitors'
+before-sleep '{{ .chezmoi.homeDir }}/.config/niri/scripts/lock.sh'

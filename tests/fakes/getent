@@ -1,0 +1,4 @@
+#!/bin/sh
+printf '%s %s\n' "${0##*/}" "$*" >> "$CALLS"
+echo "$USER:x:1000:1000::/home/$USER:/usr/bin/fish"
+exit 0

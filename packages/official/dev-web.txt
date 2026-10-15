@@ -1,0 +1,7 @@
+code
+nodejs
+npm
+bun
+python
+python-pipx
+github-cli

@@ -1,0 +1,9 @@
+# Flutter via git (nao ha pacote oficial confiavel). O bootstrap instala
+# somente quando a revisao alvo ainda nao esta presente no destino.
+name = "flutter"
+source = "git"
+repository = "https://github.com/flutter/flutter.git"
+channel = "stable"
+revision = "6b182d2c75"
+version = "3.44.9"
+dest = "~/.local/opt/flutter"
