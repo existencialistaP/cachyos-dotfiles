@@ -3,13 +3,15 @@
 // (grupos com drawer). Nada de workspaces numerados, por escolha.
 {
     "layer": "top",
-    "position": "top",
+    "position": "bottom",
     "height": 30,
     "spacing": 4,
     "reload_style_on_change": true,
+    // a barra de baixo e a permanente: nunca nasce escondida
+    // (o overview abre uma barra top separada: overview-config.jsonc)
+    "start_hidden": false,
 
     "modules-left": [
-        "group/resources",
         "custom/language",
         "privacy"
     ],
@@ -18,7 +20,6 @@
         "group/clock"
     ],
     "modules-right": [
-        "group/media",
         "custom/notification",
         "network",
         "bluetooth",

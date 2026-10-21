@@ -25,13 +25,13 @@ layout {
   focus-ring {
     off
     }
-  // Borda: SEM EFEITO (verificado na tela em 2026-10-13).
-  // O include do pywal (colors-niri.kdl, incluido depois deste arquivo)
-  // reescreve o no `border`, entao o `width` daqui nunca se aplica e a largura
-  // efetiva cai no default do niri (0 = sem borda). Teste: com width 20 aqui,
-  // nenhuma borda foi desenhada e o validate passou.
-  // Ou seja: sem borda nenhuma, como voce queria. Se um dia quiser borda, a
-  // largura precisa vir de um arquivo incluido DEPOIS do pywal.
+  // Sem indicador de janela ativa, de proposito: focus-ring em `off` e o bloco
+  // `border` nem existe, entao nao ha borda nenhuma. (Nao e o pywal que "come"
+  // a largura daqui: o include do colors-niri.kdl esta comentado no config.kdl.
+  // Verificado em 2026-10-13 com width 20: nenhuma borda foi desenhada.)
+  // Se um dia quiser borda/focus-ring: descomente o bloco abaixo E o include do
+  // pywal no config.kdl — o include fica DEPOIS deste arquivo de proposito,
+  // porque em kdl o que vem depois ganha, entao as cores do pywal mandam.
   // border {
   //     width 2
   //     active-color "#c7c3c7"

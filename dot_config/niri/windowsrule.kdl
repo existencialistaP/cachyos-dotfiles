@@ -1,9 +1,41 @@
+// Regras de janela do niri.
+//
+// ORDEM IMPORTA: as regras sao aplicadas na ordem em que aparecem e, para a
+// mesma propriedade, a ULTIMA que casa vence — nao da para "desfazer" uma
+// propriedade numa regra posterior, so sobrescrever (use `exclude` para tirar
+// uma janela de uma regra). Por isso os defaults genericos ficam PRIMEIRO e os
+// casos especificos DEPOIS. Era o contrario aqui antes: o
+// `default-column-width { proportion 0.75; }` generico (que estava no fim)
+// sobrescrevia o `proportion 0.0` (auto-tamanho) dos dialogos de arquivo.
+//
+// Lembrete: varios `match` NA MESMA REGRA sao OR ("a window needs to match *any*
+// of the match directives"); para exigir varios criterios ao mesmo tempo, ponha
+// tudo na MESMA linha de match (`match app-id="x" title="y"`).
+
+// Default de todo mundo: coluna em 75% da largura. As regras abaixo sobrescrevem
+// isso onde faz diferenca (dialogos -> 0.0 = tamanho natural).
 window-rule {
-    match app-id=r"firefox$" title="^Picture-in-Picture$"
+    default-column-width { proportion 0.75; }
+    geometry-corner-radius 0
+    clip-to-geometry true
+}
+
+// PiP do LibreWolf (o browser deste setup; app-id "librewolf"). O titulo do PiP
+// carrega o sufixo "— LibreWolf", entao a busca por "Picture-in-Picture" nao e
+// ancorada (o antigo `^Picture-in-Picture$` e o `firefox$` nunca casavam).
+window-rule {
+    match app-id=r"librewolf$" title="Picture-in-Picture"
     open-floating true
 }
 
+// Popup de login do Google no LibreWolf: ancora no app-id do browser, nao no
+// nome dele no titulo (que muda de "Mozilla Firefox" para "LibreWolf").
+window-rule {
+    match app-id="librewolf" title="Sign in - Google Accounts"
+    open-floating true
+}
 
+// Dialogos de arquivo: 0.0 = a propria janela decide o tamanho.
 window-rule {
     match title=r".*File.*"
     open-floating true
@@ -20,11 +52,7 @@ window-rule {
     max-height 1000
 }
 
-window-rule {
-    match title=r".*Sign in - Google Accounts — Mozilla Firefox"
-    open-floating true
-}
-
+// Dialogos genericos.
 window-rule {
     match title=r".*(Dialog|Properties|Preferences|Settings|Rename).*"
     open-floating true
@@ -35,52 +63,26 @@ window-rule {
     open-floating true
 }
 
+// Prompt de senha do polkit (polkit-gnome). Verificado em 2026-10-16 com
+// `niri msg windows` durante um pkexec: app-id "polkit-gnome-authentication-agent-1",
+// titulo "Authenticate". O app-id do KDE que estava aqui nao existe nesta
+// maquina, e o match em "Authentication" nao pega "Authenticate" — ou seja, o
+// prompt abria em tile.
 window-rule {
-    match app-id=r"org\.kde\.polkit-kde-authentication-agent-1"
+    match app-id="polkit-gnome-authentication-agent-1"
     open-floating true
 }
 
+// Rede de seguranca para outros prompts de autenticacao.
 window-rule {
     match title=r".*Authentication.*"
     open-floating true
 }
 
-
-
+// Waypaper abre flutuando. (Fuzzel e plasmashell/krunner sairam daqui: fuzzel e
+// layer-shell — window-rule so vale para toplevel, layer-shell tem layer-rule —
+// e nenhum dos dois do KDE esta instalado.)
 window-rule {
-    match app-id="steam" title=r"^notificationtoasts_\d+_desktop$"
-    default-floating-position x=10 y=10 relative-to="bottom-right"
-}
-
-
-window-rule {
-    default-column-width { proportion 0.75; }
-    geometry-corner-radius 0
-    clip-to-geometry true
-  
-}
-
-
-
-window-rule {
-    match app-id="plasmashell"
-    open-floating true
-}
-
-window-rule {
-    match app-id="org.kde.krunner"
-    open-floating true
-}
-
-window-rule {
-    // Atencao: varios `match` numa mesma regra sao OR (docs do niri: "a window
-    // needs to match *any* of the match directives"), nao AND. Nao ha como uma
-    // janela ter os tres titulos, entao na pratica isto e: Plasma OU fuzzel OU
-    // Waypaper abrem flutuando.
-    match title="Plasma"
-    match title="fuzzel"
-    open-floating true
     match title="Waypaper"
+    open-floating true
 }
-
- 
