@@ -1,19 +1,41 @@
-
 // Layout de teclas
 //   foco          Super+H/J/K/L        (ou setas)
 //   redimensionar Super+Ctrl+setas
 //   mover coluna  Super+Shift+H/L      (reordenar coluna)
 //   expelir       Super+Ctrl+H/L       (consume-or-expel)
+//   overlay       Super+/              (mostra todos os atalhos)
+//   sair do niri  Super+Shift+E
+//   monitores off Super+Escape
+//   coluna        1a/ultima = Super+Home / Super+End
+//   midia         XF86AudioPlay/Stop/Prev/Next + XF86AudioMicMute
+//   scroll        Super+scroll = workspace, Super+Ctrl+scroll = coluna
+//   color picker  Super+Shift+C
+//   app launcher  Super+A              (fuzzel drun: busca de aplicativos)
+//   control center Super+Shift+A       (menus do sistema: clipboard, bluetooth, ...)
 //
 // Atenção: "MOD" e "Super" são o MESMO modificador. Não use os dois para o mesmo
 // atalho, o segundo declarado ganha e o primeiro morre em silêncio (o próprio
 // niri validate não avisa).
+//
+// Atenção 2: o niri NAO completa os binds com os do default quando o config tem
+// `binds` (e uma das poucas secoes que nao herda default). Ou seja, o que nao
+// estiver declarado aqui nao existe — foi assim que ficaram faltando o overlay,
+// o quit, o power-off-monitors, as teclas de midia e todos os binds de scroll.
+//
+// repeat=false: em todo bind com EFEITO COLATERAL (spawn, fechar janela,
+// screenshot, overlay, lock) — desde o niri 0.1.8 binds repetem por padrao, e
+// segurar Super+T abriria uma rajada de terminais. Os binds de MOVIMENTO
+// (foco/mover/redimensionar/workspace) ficam repetiveis de proposito.
 
 binds {
-    Super+A hotkey-overlay-title="Command Center" { spawn-sh "~/.config/niri/scripts/launcher.sh"; }
+    // App launcher: `fuzzel` sem argumento abre o modo drun (le os .desktop do
+    // XDG). Antes o Super+A abria um fuzzel --dmenu que misturava os apps com os
+    // menus do sistema; agora sao dois binds separados.
+    Super+A repeat=false hotkey-overlay-title="App Launcher" { spawn "fuzzel"; }
+    Super+Shift+A repeat=false hotkey-overlay-title="Control Center" { spawn-sh "~/.config/niri/scripts/control-center.sh"; }
 
-    Super+N hotkey-overlay-title="Notifications: Dismiss All" { spawn-sh "makoctl dismiss -a"; }
-    Super+Shift+N hotkey-overlay-title="Notifications: Não Perturbe" { spawn-sh "makoctl mode -t do-not-disturb"; }
+    Super+N repeat=false hotkey-overlay-title="Notifications: Dismiss All" { spawn-sh "makoctl dismiss -a"; }
+    Super+Shift+N repeat=false hotkey-overlay-title="Notifications: Não Perturbe" { spawn-sh "makoctl mode -t do-not-disturb"; }
     XF86AudioRaiseVolume allow-when-locked=true {
        spawn-sh "swayosd-client --output-volume raise" ;
     }
@@ -70,7 +92,7 @@ binds {
     Super+L hotkey-overlay-title="Focus Right" { focus-column-right-or-first; }
     Super+Left hotkey-overlay-title="Toggle Tabbed" { toggle-column-tabbed-display; }
     Super+M hotkey-overlay-title="Maximize Column" { maximize-column; }
-    Super+Q hotkey-overlay-title="Close Window" { close-window; }
+    Super+Q repeat=false hotkey-overlay-title="Close Window" { close-window; }
     Super+R hotkey-overlay-title="Fullscreen" { fullscreen-window; }
     Super+Right hotkey-overlay-title="Cycle Column Width" { switch-preset-column-width; }
     Super+Shift+H hotkey-overlay-title="Move Column Left" { move-column-left; }
@@ -81,16 +103,49 @@ binds {
     Super+Ctrl+K hotkey-overlay-title="Move Column to Workspace Up" { move-column-to-workspace-up; }
     Super+Up { focus-window-up; }
     Super+W { toggle-window-floating; }
-    Super+P hotkey-overlay-title="Screenshot Screen" { screenshot-screen; }
-    Super+Alt+L hotkey-overlay-title="Lock" { spawn-sh "~/.config/niri/scripts/lock.sh"; }
-    Super+Shift+P hotkey-overlay-title="Screenshot (Interactive)" { screenshot; }
-    Super+Ctrl+P hotkey-overlay-title="Screenshot Window" { screenshot-window; }
-    Super+E hotkey-overlay-title="File Manager" { spawn "nautilus"; }
-    Super+F hotkey-overlay-title="Browser" { spawn "firefox"; }
-    Super+T hotkey-overlay-title="Terminal" { spawn "kitty"; }
-    Super+Tab hotkey-overlay-title="Toggle Overview" { toggle-overview; }
-    Super+O hotkey-overlay-title="Toggle Light/Dark" { spawn-sh "~/.config/niri/scripts/themeSwitch.sh"; }
-    Super+U { spawn "waypaper"; }
-    Super+Shift+V hotkey-overlay-title="Clipboard Manager" { spawn-sh "~/.config/niri/scripts/clipboard.sh"; }
-    Super+X hotkey-overlay-title="Quick Actions" { spawn-sh "~/.config/niri/scripts/actions.sh"; }
+    Super+P repeat=false hotkey-overlay-title="Screenshot Screen" { screenshot-screen; }
+    Super+Alt+L repeat=false hotkey-overlay-title="Lock" { spawn-sh "~/.config/niri/scripts/lock.sh"; }
+    Super+Shift+P repeat=false hotkey-overlay-title="Screenshot (Interactive)" { screenshot; }
+    Super+Ctrl+P repeat=false hotkey-overlay-title="Screenshot Window" { screenshot-window; }
+    Super+E repeat=false hotkey-overlay-title="File Manager" { spawn "nautilus"; }
+    Super+F repeat=false hotkey-overlay-title="Browser" { spawn "librewolf"; }
+    Super+T repeat=false hotkey-overlay-title="Terminal" { spawn "kitty"; }
+    Super+Tab repeat=false hotkey-overlay-title="Toggle Overview" { toggle-overview; }
+    Super+O repeat=false hotkey-overlay-title="Toggle Light/Dark" { spawn-sh "~/.config/niri/scripts/themeSwitch.sh"; }
+    Super+U repeat=false { spawn "waypaper"; }
+    Super+Shift+V repeat=false hotkey-overlay-title="Clipboard Manager" { spawn-sh "~/.config/niri/scripts/clipboard.sh"; }
+    Super+X repeat=false hotkey-overlay-title="Quick Actions" { spawn-sh "~/.config/niri/scripts/actions.sh"; }
+
+    // --- binds do default do niri que estavam faltando -----------------------
+    // (nada aqui colide com o que ja existe acima; o niri validate confirma)
+
+    Super+Slash hotkey-overlay-title="Mostrar Atalhos" { show-hotkey-overlay; }
+    Super+Shift+E repeat=false hotkey-overlay-title="Sair do Niri" { quit; }
+    Super+Escape hotkey-overlay-title="Monitores Off (DPMS)" { power-off-monitors; }
+    Super+Home hotkey-overlay-title="Primeira Coluna" { focus-column-first; }
+    Super+End hotkey-overlay-title="Última Coluna" { focus-column-last; }
+
+    // Teclas de midia. -p playerctld e obrigatorio: sem ele o playerctl manda o
+    // comando para o PRIMEIRO player da lista (na pratica o firefox) em vez do
+    // que esta tocando — a mesma armadilha documentada no modulo mpris da waybar.
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "-p" "playerctld" "play-pause"; }
+    XF86AudioStop allow-when-locked=true { spawn "playerctl" "-p" "playerctld" "stop"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "-p" "playerctld" "previous"; }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "-p" "playerctld" "next"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+
+    // Scroll com Super (o cooldown evita que um gesto de touchpad dispare varias
+    // trocas de uma vez). A direcao acompanha o natural-scroll de cada device.
+    Super+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
+    Super+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Super+Ctrl+WheelScrollUp cooldown-ms=150 { move-column-to-workspace-up; }
+    Super+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Super+WheelScrollLeft { focus-column-left-or-last; }
+    Super+WheelScrollRight { focus-column-right-or-first; }
+    Super+Ctrl+WheelScrollLeft { move-column-left; }
+    Super+Ctrl+WheelScrollRight { move-column-right; }
+
+    // Conta-gotas: hyprpicker copia o hex e notifica pelo mako. Requer o pacote
+    // hyprpicker (extra).
+    Super+Shift+C repeat=false hotkey-overlay-title="Color Picker" { spawn "hyprpicker" "--autocopy" "--notify"; }
 }
