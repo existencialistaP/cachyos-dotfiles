@@ -9,13 +9,33 @@ import Quickshell.Io
 Singleton {
     id: root
 
-    // kinds aceitos por `herdr agent start --kind`
-    readonly property var kinds: [
-        "omp", "claude", "codex", "opencode", "gemini", "cursor", "copilot",
-        "amp", "droid", "qwen", "pi", "devin", "cline", "grok", "hermes",
-        "kimi", "kiro", "kilo", "letta", "maki", "muse", "qodercli",
-        "agy", "mastracode"
-    ]
+    // Somente kinds com integração do Herdr instalada (não todos os agentes
+    // que o Herdr conhece). `antigravity-cli` é o nome da integração; o
+    // `agent start --kind` espera `agy`.
+    property var kinds: []
+
+    readonly property var kindAliases: ({ "antigravity-cli": "agy" })
+
+    function refreshKinds() {
+        if (!integrationsProc.running)
+            integrationsProc.running = true
+    }
+
+    function parseIntegrations(text) {
+        const found = []
+        for (const raw of text.split("\n")) {
+            const line = raw.trim()
+            const match = line.match(/^([a-z0-9-]+)(?: \([^)]*\))?:\s*(.+)$/)
+            if (!match)
+                continue
+            if (match[2].toLowerCase().indexOf("not installed") === 0)
+                continue
+            const kind = root.kindAliases[match[1]] ?? match[1]
+            if (found.indexOf(kind) < 0)
+                found.push(kind)
+        }
+        kinds = found
+    }
 
     property var agents: []
     property var workspaces: []
@@ -189,6 +209,14 @@ Singleton {
     }
 
     Process {
+        id: integrationsProc
+        command: ["herdr", "integration", "status"]
+        stdout: StdioCollector {
+            onStreamFinished: root.parseIntegrations(text)
+        }
+    }
+
+    Process {
         id: actionProc
         stdout: StdioCollector {}
         stderr: StdioCollector {
@@ -262,5 +290,8 @@ Singleton {
         onTriggered: root.spawnPending = false
     }
 
-    Component.onCompleted: refresh()
+    Component.onCompleted: {
+        refresh()
+        refreshKinds()
+    }
 }

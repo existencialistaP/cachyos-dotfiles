@@ -11,4 +11,5 @@ Tray 1.0 Tray.qml
 Menu 1.0 Menu.qml
 OverviewBar 1.0 OverviewBar.qml
 Herdr 1.0 Herdr.qml
+HerdrPanel 1.0 HerdrPanel.qml
 Dictation 1.0 Dictation.qml

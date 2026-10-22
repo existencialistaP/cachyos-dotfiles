@@ -38,7 +38,6 @@ ShellRoot {
     TooltipSurface {}
     Launcher {}
     WallpaperPicker {}
-    HerdrManager {}
 
     // Permite abrir/fechar cards por keybind: qs ipc call bar toggleCard wifi
     IpcHandler {

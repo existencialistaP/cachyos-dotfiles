@@ -25,7 +25,16 @@ Item {
             if (mouse.button === Qt.RightButton)
                 HerdrService.openHerdr()
             else
-                Ui.toggle("herdr", "center")
+                Ui.toggle("herdr")
+        }
+    }
+
+    Popover {
+        key: "herdr"
+        trigger: item
+
+        content: Component {
+            HerdrPanel {}
         }
     }
 }
