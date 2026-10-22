@@ -82,7 +82,7 @@ ShellRoot {
         }
 
         function herdrToggle() {
-            Ui.toggle("herdr", "center")
+            Ui.toggle("herdr")
         }
 
         function dictationToggle() {
