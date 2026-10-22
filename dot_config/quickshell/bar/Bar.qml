@@ -56,6 +56,8 @@ PanelWindow {
         Wifi {}
         Bluetooth {}
         Audio {}
+        Dictation {}
+        Herdr {}
         Battery {}
         Tray {}
         Menu {}

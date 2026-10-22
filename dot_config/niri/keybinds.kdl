@@ -10,8 +10,9 @@
 //   midia         XF86AudioPlay/Stop/Prev/Next + XF86AudioMicMute
 //   scroll        Super+scroll = workspace, Super+Ctrl+scroll = coluna
 //   color picker  Super+Shift+C
-//   app launcher  Super+A              (fuzzel drun: busca de aplicativos)
-//   control center Super+Shift+A       (menus do sistema: clipboard, bluetooth, ...)
+//   app launcher  Super+A              (launcher do quickshell)
+//   wallpapers    Super+U              (grid do quickshell)
+//   control center Super+Shift+A       (menu do quickshell)
 //
 // Atenção: "MOD" e "Super" são o MESMO modificador. Não use os dois para o mesmo
 // atalho, o segundo declarado ganha e o primeiro morre em silêncio (o próprio
@@ -28,31 +29,31 @@
 // (foco/mover/redimensionar/workspace) ficam repetiveis de proposito.
 
 binds {
-    // App launcher: `fuzzel` sem argumento abre o modo drun (le os .desktop do
-    // XDG). Antes o Super+A abria um fuzzel --dmenu que misturava os apps com os
-    // menus do sistema; agora sao dois binds separados.
-    Super+A repeat=false hotkey-overlay-title="App Launcher" { spawn "fuzzel"; }
-    Super+Shift+A repeat=false hotkey-overlay-title="Control Center" { spawn-sh "~/.config/niri/scripts/control-center.sh"; }
+    // Launcher/wallpapers agora são do shell (Super+A e Super+U).
+    Super+A repeat=false hotkey-overlay-title="App Launcher" { spawn "qs" "ipc" "-c" "bar" "call" "bar" "launcherToggle"; }
+    Super+U repeat=false hotkey-overlay-title="Wallpapers" { spawn "qs" "ipc" "-c" "bar" "call" "bar" "wallpaperToggle"; }
+    Super+Shift+A repeat=false hotkey-overlay-title="Control Center" { spawn "qs" "ipc" "-c" "bar" "call" "bar" "toggleCard" "menu"; }
 
     Super+N repeat=false hotkey-overlay-title="Notifications: Dismiss All" { spawn-sh "makoctl dismiss -a"; }
     Super+Shift+N repeat=false hotkey-overlay-title="Notifications: Não Perturbe" { spawn-sh "makoctl mode -t do-not-disturb"; }
+    Super+Shift+I repeat=false hotkey-overlay-title="Inibir Idle" { spawn "qs" "ipc" "-c" "bar" "call" "bar" "idleToggle"; }
     XF86AudioRaiseVolume allow-when-locked=true {
-       spawn-sh "swayosd-client --output-volume raise" ;
+       spawn "qs" "ipc" "-c" "bar" "call" "bar" "volumeUp" ;
     }
     XF86AudioLowerVolume allow-when-locked=true {
-       spawn-sh "swayosd-client --output-volume lower" ;
+       spawn "qs" "ipc" "-c" "bar" "call" "bar" "volumeDown" ;
     }
     XF86AudioMute allow-when-locked=true {
-       spawn-sh "swayosd-client --output-volume mute-toggle" ;
+       spawn "qs" "ipc" "-c" "bar" "call" "bar" "volumeMute" ;
     }
 
-    // Brightness Controls
+    // Brightness Controls (OSD do quickshell substitui o swayosd)
     XF86MonBrightnessUp allow-when-locked=true {
-       spawn-sh "swayosd-client --brightness raise" ;
+       spawn "qs" "ipc" "-c" "bar" "call" "bar" "brightnessUp" ;
     }
 
     XF86MonBrightnessDown allow-when-locked=true {
-       spawn-sh "swayosd-client --brightness lower" ;
+       spawn "qs" "ipc" "-c" "bar" "call" "bar" "brightnessDown" ;
     }
 
     Super+0 { focus-workspace 10; }
@@ -110,9 +111,10 @@ binds {
     Super+E repeat=false hotkey-overlay-title="File Manager" { spawn "nautilus"; }
     Super+F repeat=false hotkey-overlay-title="Browser" { spawn "librewolf"; }
     Super+T repeat=false hotkey-overlay-title="Terminal" { spawn "kitty"; }
+    Super+Shift+G repeat=false hotkey-overlay-title="Herdr Agent Manager" { spawn "qs" "ipc" "-c" "bar" "call" "bar" "herdrToggle"; }
+    Super+Shift+D repeat=false hotkey-overlay-title="Ditado Local" { spawn "qs" "ipc" "-c" "bar" "call" "bar" "dictationToggle"; }
     Super+Tab repeat=false hotkey-overlay-title="Toggle Overview" { toggle-overview; }
     Super+O repeat=false hotkey-overlay-title="Toggle Light/Dark" { spawn-sh "~/.config/niri/scripts/themeSwitch.sh"; }
-    Super+U repeat=false { spawn "waypaper"; }
     Super+Shift+V repeat=false hotkey-overlay-title="Clipboard Manager" { spawn-sh "~/.config/niri/scripts/clipboard.sh"; }
     Super+X repeat=false hotkey-overlay-title="Quick Actions" { spawn-sh "~/.config/niri/scripts/actions.sh"; }
 

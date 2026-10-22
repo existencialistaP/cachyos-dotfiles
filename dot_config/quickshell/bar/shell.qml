@@ -38,6 +38,7 @@ ShellRoot {
     TooltipSurface {}
     Launcher {}
     WallpaperPicker {}
+    HerdrManager {}
 
     // Permite abrir/fechar cards por keybind: qs ipc call bar toggleCard wifi
     IpcHandler {
@@ -79,6 +80,14 @@ ShellRoot {
 
         function wallpaperToggle() {
             Wallpapers.toggle()
+        }
+
+        function herdrToggle() {
+            Ui.toggle("herdr", "center")
+        }
+
+        function dictationToggle() {
+            DictationService.toggle()
         }
 
         function toggleBarPosition() {

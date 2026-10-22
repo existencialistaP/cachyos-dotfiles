@@ -7,6 +7,7 @@ Item {
     property string text: ""
     property string tooltip: ""
     property bool active: false
+    property color color: Theme.fg
     signal clicked(var mouse)
     signal scrolled(int delta, int modifiers)
 
@@ -23,7 +24,7 @@ Item {
         id: label
         anchors.centerIn: parent
         text: root.text
-        color: Theme.fg
+        color: root.color
         font.family: Theme.fontFamily
         font.pixelSize: Theme.fontSize
         font.bold: root.active
