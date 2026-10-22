@@ -11,3 +11,6 @@ tests
 
 # Wallpaper grande que fica fora do Git (204,9 MB). Os outros 45 entram.
 wallpapers/wallpapers/asuka.gif
+
+# Estado local do shell (wallpaperDir, posição/altura da barra).
+.config/quickshell/bar/settings.json

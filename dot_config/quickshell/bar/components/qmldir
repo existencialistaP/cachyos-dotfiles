@@ -1,0 +1,13 @@
+Popover 1.0 Popover.qml
+Card 1.0 Card.qml
+BarItem 1.0 BarItem.qml
+ListItem 1.0 ListItem.qml
+Toggle 1.0 Toggle.qml
+Slider 1.0 Slider.qml
+ActionButton 1.0 ActionButton.qml
+Calendar 1.0 Calendar.qml
+Anim 1.0 Anim.qml
+CAnim 1.0 CAnim.qml
+Section 1.0 Section.qml
+OsdSurface 1.0 OsdSurface.qml
+TooltipSurface 1.0 TooltipSurface.qml
