@@ -16,6 +16,8 @@ wtype
 cliphist
 brightnessctl
 playerctl
+pipewire-pulse
+wireplumber
 pavucontrol
 polkit-gnome
 networkmanager

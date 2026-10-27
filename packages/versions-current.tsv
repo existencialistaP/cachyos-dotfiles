@@ -49,6 +49,8 @@ pacman	wl-clipboard	1:2.3.0-1.1
 pacman	cliphist	1:0.7.0-2.1
 pacman	brightnessctl	0.5.1-3
 pacman	playerctl	2.4.1-5.1
+pacman	pipewire-pulse	1:1.6.9-1
+pacman	wireplumber	0.5.18-1.1
 pacman	pavucontrol	1:6.2-1.1
 pacman	polkit-gnome	-
 pacman	networkmanager	1.58.1-2
@@ -104,6 +106,8 @@ pacman	tmux	3.8-1.1
 pacman	github-cli	2.102.0-1.1
 pacman	tree-sitter-cli	0.26.9-1.1
 pacman	tableplus	0.1.310-1
+pacman	herdr-bin	0.9.5-1
+pacman	jcode-bin	0.99.1-1
 pacman	spotatui-bin	0.45.0-1
 pacman	ttf-lilex	2.700-1
 flatpak	com.google.AndroidStudio	2026.2.1.8
