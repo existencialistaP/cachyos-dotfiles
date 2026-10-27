@@ -124,8 +124,10 @@ EOF
     [ -f "$AUDIT_FILE" ]
 
     grep -qx hyprland "$AUDIT_FILE"
-    grep -qx quickshell "$AUDIT_FILE"
     grep -qx yay "$AUDIT_FILE"
+
+    # quickshell e curado (desktop-niri): nunca vira candidato de prune
+    ! grep -qx quickshell "$AUDIT_FILE"
 
     local pkg
     for pkg in neovim linux-cachyos linux-cachyos-nvidia nvidia-utils vulkan-radeon \
@@ -153,7 +155,9 @@ EOF
     command -v script >/dev/null || skip "script indisponivel"
     printf '%s\n' hyprland quickshell >"$PACMAN_EXPLICIT"
     run run_pty REMOVE "$REPO/bootstrap.sh" --all --prune
-    grep -q 'sudo pacman -Rns -- hyprland quickshell' "$CALLS"
+    # quickshell e curado: so o hyprland vira candidato
+    grep -q 'sudo pacman -Rns -- hyprland' "$CALLS"
+    ! grep -q 'pacman -Rns --.*quickshell' "$CALLS"
 }
 
 @test "orca com checksum errado falha antes de copiar" {

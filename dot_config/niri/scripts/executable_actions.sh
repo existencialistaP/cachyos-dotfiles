@@ -1,6 +1,6 @@
 #!/bin/sh
 # Quick Actions: one press, one action, no submenus.
-# Volume toggles mute and Brightness raises by 10% — both shown through swayosd.
+# Volume/brightness passam pelo shell (OSD próprio), wallpaper pelo picker do qs.
 
 menu() {
   printf '%s\n' \
@@ -15,13 +15,14 @@ menu() {
 
 case "$(menu)" in
   Volume)
-    swayosd-client --output-volume mute-toggle
+    qs ipc -c bar call bar volumeMute
     ;;
   Brightness)
-    swayosd-client --brightness +10
+    qs ipc -c bar call bar brightnessUp
+    qs ipc -c bar call bar brightnessUp
     ;;
   Wallpaper)
-    waypaper
+    qs ipc -c bar call bar wallpaperToggle
     ;;
   Theme)
     "$HOME/.config/niri/scripts/themeSwitch.sh"

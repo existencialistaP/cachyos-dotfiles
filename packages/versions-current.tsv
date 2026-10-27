@@ -33,12 +33,14 @@ pacman	shellcheck	-
 pacman	bats	-
 pacman	gdm	51.0-1.1
 pacman	niri	26.04-1.1
+pacman	quickshell	0.3.2-1.1
 pacman	waybar	0.15.0-3.1
 pacman	fuzzel	1.15.0-1.1
 pacman	kitty	0.49.2-1.1
 pacman	mako	1.11.0-1.1
 pacman	swayidle	1.9.0-1.1
 pacman	swayosd	0.3.2-1.1
+pacman	wtype	0.4-2.2
 pacman	hyprlock	0.9.6-3.1
 pacman	awww	0.12.1-1.1
 pacman	qt6ct	0.11-9.1

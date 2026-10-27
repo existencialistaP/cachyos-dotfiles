@@ -1,4 +1,9 @@
 include "keybinds.kdl"
+
+gestures {
+    hot-corners {
+    }
+}
 include "windowsrule.kdl"
 include "animations.kdl"
 include "outputs.kdl"
@@ -20,12 +25,12 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 
 spawn-at-startup "wal -R"
-spawn-at-startup "swayosd-server"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "swayidle"
 spawn-at-startup "mako"
 spawn-at-startup "{{ .chezmoi.homeDir }}/.config/niri/scripts/clipboard-store.sh"
-spawn-at-startup "waybar" 
+// spawn-at-startup "waybar"
+spawn-at-startup "quickshell" "--config" "bar" "--no-duplicate" "--daemonize"
 spawn-sh-at-startup "gsettings set org.gnome.desktop.wm.preferences button-layout ''"
 prefer-no-csd
 

@@ -485,3 +485,6 @@ fish_add_path $ANDROID_HOME/platform-tools
 # ~/.local/bin (pipx, uv, npm-global, Flutter...). fish_add_path deduplica,
 # entao nao precisa de uma entrada por instalador.
 fish_add_path "$HOME/.local/bin"
+
+# Superset CLI
+set -gx PATH {{ .chezmoi.homeDir }}/superset/bin $PATH

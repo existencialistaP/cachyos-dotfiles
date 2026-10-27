@@ -1,5 +1,6 @@
 gdm
 niri
+quickshell
 waybar
 fuzzel
 kitty
@@ -11,6 +12,7 @@ awww
 qt6ct
 kvantum
 wl-clipboard
+wtype
 cliphist
 brightnessctl
 playerctl
