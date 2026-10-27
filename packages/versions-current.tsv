@@ -108,6 +108,7 @@ pacman	tree-sitter-cli	0.26.9-1.1
 pacman	tableplus	0.1.310-1
 pacman	herdr-bin	0.9.5-1
 pacman	jcode-bin	0.99.1-1
+pacman	qml-niri-git	0.3.0.r0.g93e6039-1
 pacman	spotatui-bin	0.45.0-1
 pacman	ttf-lilex	2.700-1
 flatpak	com.google.AndroidStudio	2026.2.1.8

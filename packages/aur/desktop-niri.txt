@@ -1,2 +1,3 @@
 herdr-bin
 jcode-bin
+qml-niri-git
